@@ -1,19 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    private GridXZ<bool> grid;
+    private GridXZ<GridInfo> grid;
+    private Player player;
+
     void Start() 
-    {
-        //grid = new GridXZ<bool>(10, 10, 1f, new Vector3(0,0,0));   
-        grid = new GridXZ<bool>(10, 10, 1f, new Vector3(0,0,0));   
-
-
-        //  grid = new GridXZ(2, 2, 5f, new Vector3(0,0,0));
-        // Vector3 newOriginpos = grid.GetWorldPosition(1, 1);
-        // grid2 = new GridXZ(10,10, 0.5f, newOriginpos);
+    { 
+        player = FindObjectOfType<Player>();
+        grid = new GridXZ<GridInfo>(20, 10, 8f, new Vector3(0,0,0), (GridXZ<GridInfo> _grid, int _x, int _z) => new GridInfo(_grid, _x, _z));
     }
 
     void Update()
@@ -25,7 +23,12 @@ public class MapManager : MonoBehaviour
                   
             if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos))
             {
-                grid.SetValue(mousePos, true);
+                GridInfo gridObj = grid.GetGridObject(mousePos);
+
+                if(gridObj != null)
+                {
+                    gridObj.AddValue(5);
+                }
             }
         }
 
@@ -33,8 +36,19 @@ public class MapManager : MonoBehaviour
         {
             if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos))
             {
-                print(grid.GetValue(mousePos));
+                //print(grid.GetGridObject(mousePos));
             }
+        }
+
+        CheckIfPlayerHasWalkedOverThisGridObj();
+    }
+
+    private void CheckIfPlayerHasWalkedOverThisGridObj()
+    {
+        GridInfo gridObj = grid.GetGridObject(player.transform.position);
+        if(!gridObj.GetHaveWalkedOver())
+        {
+            gridObj.SetHaveWalkedOver(true);
         }
     }
 }
