@@ -72,7 +72,7 @@ public class PlayerControllerPc : MonoBehaviour
         if(transform.position.x < posPlusRange.x && transform.position.z < posPlusRange.z && transform.position.x > posMinusRange.x && transform.position.z > posMinusRange.z)
         {
             moving = false;
-            print("Not moving");
+            // print("Not moving");
         }
     }
 
@@ -91,11 +91,11 @@ public class PlayerControllerPc : MonoBehaviour
             posPlusRange = targetPos + new Vector3(0.5f,0.5f,0.5f);
             posMinusRange = targetPos - new Vector3(0.5f,0.5f,0.5f);
             
-            print(posPlusRange.ToString() + " plus range");
-            print(posMinusRange.ToString() + " minus range");
+            // print(posPlusRange.ToString() + " plus range");
+            // print(posMinusRange.ToString() + " minus range");
             
             moving = true;
-            print("moving");
+            // print("moving");
         }
     }
 
@@ -110,7 +110,7 @@ public class PlayerControllerPc : MonoBehaviour
             transform.position.x > posMinusRange.x && transform.position.z > posMinusRange.z)
         {
             moving = false;
-            print("Not moving");            
+            // print("Not moving");            
         }
     }
 }

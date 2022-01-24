@@ -122,4 +122,18 @@ public class GridXZ<TGridType>
         OnGridObjectChanged?.Invoke(this, new OnGridObjectChangedEventArgs { x = _x, z = _z });
     }
     
+    public int GetWidth()
+    {
+        return width;
+    }
+
+    public int GetDepth()
+    {
+        return depth;
+    }
+
+    public float GetCellsize()
+    {
+        return cellSize;
+    }
 }
