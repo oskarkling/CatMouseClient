@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerControllerPc : MonoBehaviour
 {
+
+
     private Player player;
     private Vector3 targetPos;
     private Vector3 lookDirection;
@@ -14,7 +16,13 @@ public class PlayerControllerPc : MonoBehaviour
     private bool moving;
     private Vector3 posPlusRange;
     private Vector3 posMinusRange;
+
+    // pathfinding
     private int currentPathIndex;
+    private List<Vector3> pathVector3List;
+    private PathFinding pathFinder;
+
+    public GameObject wallPrefab;
 
     //testing rigidbody
     new private Rigidbody rigidbody;
@@ -26,6 +34,8 @@ public class PlayerControllerPc : MonoBehaviour
         moveSpeed = player.moveSpeed;
         rotSpeed = player.rotationSpeed;
         moving = false;
+
+        pathFinder = new PathFinding(10, 10);
 
     }
 
@@ -41,6 +51,29 @@ public class PlayerControllerPc : MonoBehaviour
         if(Input.GetMouseButton(1))
         {
             SetTargetPositon();
+            MovePathFinding();
+        }
+
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+            {
+                pathFinder.GetGrid().GetXZ(mousePos, out int x, out int z);
+
+                // PathNode node = pathFinding.GetNode(x, z);
+                // node.isWalkable = false;
+                // node.SetIsWalkable(false);
+                //pathFinding.GetNode(x,z).SetIsWalkable(false);
+
+
+                int cellsize = (int)pathFinder.GetGrid().GetCellsize();
+
+                Vector3 middle = pathFinder.GetGrid().GetWorldPosition(x,z) + new Vector3(cellsize / 2, 0, cellsize / 2);
+
+                pathFinder.GetNode(x, z).SetIsWalkable(!pathFinder.GetNode(x,z).isWalkable);
+
+                Instantiate(wallPrefab, middle, Quaternion.identity);
+            }
         }
     }
 
@@ -48,16 +81,69 @@ public class PlayerControllerPc : MonoBehaviour
     {
         if(moving)
         {
-            Move();
+            //Move();
             //MoveRigidbody();
             //MovePlayerObject();
-            //MovePathFinding();
+            
+            HandlePathFindingMovement();
         }
     }
 
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+    private void StopMoving()
+    {
+        pathVector3List = null;
+    }
     private void MovePathFinding()
     {
         currentPathIndex = 0;
+        pathVector3List = pathFinder.FindPath(GetPosition(), targetPos);
+
+        if(pathVector3List != null && pathVector3List.Count > 1)
+        {
+            pathVector3List.RemoveAt(0);
+        }
+        
+    }
+
+    private void HandlePathFindingMovement()
+    {
+        if(pathVector3List != null)
+        {
+            Vector3 pathTargetPosition = pathVector3List[currentPathIndex];
+            
+            if(Vector3.Distance(transform.position, pathTargetPosition) > 1f)
+            {
+                Vector3 moveDir = (pathTargetPosition - transform.position).normalized;
+
+                float distanceBefore = Vector3.Distance(transform.position, pathTargetPosition);
+
+                // animate moving character here
+
+                transform.position = transform.position + moveDir * moveSpeed * Time.deltaTime;
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);                
+                // rotate character here
+            }
+            else
+            {
+                currentPathIndex++;
+                if(currentPathIndex >= pathVector3List.Count)
+                {
+                    StopMoving();
+                    moving = false;
+                    // animate stop moving character here
+                }
+            }
+        }
+        else
+        {
+            // animate stop moving character here
+            moving = false;
+        }
     }
 
     private void MovePlayerObject()

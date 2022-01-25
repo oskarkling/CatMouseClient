@@ -136,17 +136,17 @@ public class PathFinding
             // Left
             neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ()));
 
-            //Left Down
-            if(currentNode.GetZ() - 1 >= 0)
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() - 1));
-            }
+            // //Left Down
+            // if(currentNode.GetZ() - 1 >= 0)
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() - 1));
+            // }
 
-            // Left Up
-            if(currentNode.GetZ() + 1 < grid.GetDepth())
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() +1));
-            }
+            // // Left Up
+            // if(currentNode.GetZ() + 1 < grid.GetDepth())
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() +1));
+            // }
         }
 
         if(currentNode.GetX() + 1 < grid.GetWidth())
@@ -154,17 +154,17 @@ public class PathFinding
             // Right
             neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ()));
 
-            // Right Down
-            if(currentNode.GetZ() -1 >= 0)
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() -1));
-            }
+            // // Right Down
+            // if(currentNode.GetZ() -1 >= 0)
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() -1));
+            // }
 
-            // Right Up
-            if(currentNode.GetZ() + 1 < grid.GetDepth())
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() + 1));
-            }
+            // // Right Up
+            // if(currentNode.GetZ() + 1 < grid.GetDepth())
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() + 1));
+            // }
         }
 
         // Down
