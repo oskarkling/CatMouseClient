@@ -14,6 +14,7 @@ public class PlayerControllerPc : MonoBehaviour
     private bool moving;
     private Vector3 posPlusRange;
     private Vector3 posMinusRange;
+    private int currentPathIndex;
 
     //testing rigidbody
     new private Rigidbody rigidbody;
@@ -50,7 +51,13 @@ public class PlayerControllerPc : MonoBehaviour
             Move();
             //MoveRigidbody();
             //MovePlayerObject();
+            //MovePathFinding();
         }
+    }
+
+    private void MovePathFinding()
+    {
+        currentPathIndex = 0;
     }
 
     private void MovePlayerObject()
@@ -78,12 +85,32 @@ public class PlayerControllerPc : MonoBehaviour
 
     private void SetTargetPositon()
     {
-        RaycastHit hitInfo;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(ray, out hitInfo, 1000))
+        // Old code
+        // RaycastHit hitInfo;
+        // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // if(Physics.Raycast(ray, out hitInfo, 1000))
+        // {
+        //     targetPos = hitInfo.point;
+            
+        //     lookDirection = new Vector3(targetPos.x - transform.position.x, transform.position.y, targetPos.z - transform.position.z);
+        //     rotation = Quaternion.LookRotation(lookDirection);
+
+        //     posPlusRange = targetPos + new Vector3(0.5f,0.5f,0.5f);
+        //     posMinusRange = targetPos - new Vector3(0.5f,0.5f,0.5f);
+            
+        //     // print(posPlusRange.ToString() + " plus range");
+        //     // print(posMinusRange.ToString() + " minus range");
+            
+        //     moving = true;
+        //     // print("moving");
+        // }
+
+        // New code
+        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
         {
-            targetPos = hitInfo.point;
+            targetPos = mousePos;
             
             lookDirection = new Vector3(targetPos.x - transform.position.x, transform.position.y, targetPos.z - transform.position.z);
             rotation = Quaternion.LookRotation(lookDirection);

@@ -13,7 +13,8 @@ namespace Utility
             RaycastHit hitInfo;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hitInfo))
+            // 1000 = range (maxdistance)
+            if (Physics.Raycast(ray, out hitInfo, 1000))
             {
                 mousePos = hitInfo.point;
                 return true;

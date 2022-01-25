@@ -14,7 +14,7 @@ public class PathFinding
     private List<PathNode> openList;
 
     // TODO
-    // Implement generic Hashset<> to optimize performance
+    // Implement generic Hashset<> on closedList to optimize performance
     // becouse we are checking if it contains the given node or not.
     private List<PathNode> closedList;
 
@@ -94,6 +94,39 @@ public class PathFinding
         return null;
     }
     
+    public PathNode GetNode(int x, int z)
+    {
+        return grid.GetGridObject(x, z);
+    }
+
+    public GridXZ<PathNode> GetGrid()
+    {
+        return grid;
+    }
+
+    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
+    {
+        grid.GetXZ(startWorldPos, out int startX, out int startZ);
+        grid.GetXZ(endWorldPos, out int endX, out int endZ);
+
+        List<PathNode> path = FindPath(startX, startZ, endX, endZ);
+
+        if(path == null)
+        {
+            return null;
+        }
+        else
+        {
+            List<Vector3> vector3Path = new List<Vector3>();
+            foreach(var pathNode in path)
+            {
+                vector3Path.Add(new Vector3(pathNode.GetX(), 0, pathNode.GetZ()) * grid.GetCellsize() + new Vector3(1, 0, 1) * grid.GetCellsize() * 0.5f);
+            }
+            
+            return vector3Path;
+        }
+    }
+
     private List<PathNode> GetNeighboursList(PathNode currentNode)
     {
         List<PathNode> neighboursList = new List<PathNode>();
@@ -149,11 +182,6 @@ public class PathFinding
         return neighboursList;
     }
 
-    public PathNode GetNode(int x, int z)
-    {
-        return grid.GetGridObject(x, z);
-    }
-
     private List<PathNode> CalculatePath(PathNode endNode)
     {
         List<PathNode> path = new List<PathNode>();
@@ -194,8 +222,4 @@ public class PathFinding
         return lowestFCostNode;
     }
 
-    public GridXZ<PathNode> GetGrid()
-    {
-        return grid;
-    }
 }
