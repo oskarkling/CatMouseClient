@@ -5,7 +5,10 @@ using UnityEngine;
 public class TestingPathFinding : MonoBehaviour
 {
     public GameObject wallPrefab;
+
+    public GameObject player;
     private PathFinding pathFinding;
+
     private void Start()
     {
         pathFinding = new PathFinding(10, 10);
@@ -52,7 +55,10 @@ public class TestingPathFinding : MonoBehaviour
 
                 Vector3 middle = pathFinding.GetGrid().GetWorldPosition(x,z) + new Vector3(cellsize / 2, 0, cellsize / 2);
 
-                pathFinding.GetNode(x, z).SetIsWalkable(!pathFinding.GetNode(x,z).isWalkable);
+                PlayerControllerPc pc = GameObject.Find("Player").GetComponent<PlayerControllerPc>();
+
+
+                pc.SetNotWalkable(x, z);
 
                 Instantiate(wallPrefab, middle, Quaternion.identity);
             }

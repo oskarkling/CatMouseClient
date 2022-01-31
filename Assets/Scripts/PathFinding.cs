@@ -14,7 +14,7 @@ public class PathFinding
     private List<PathNode> openList;
 
     // TODO
-    // Implement generic Hashset<> to optimize performance
+    // Implement generic Hashset<> on closedList to optimize performance
     // becouse we are checking if it contains the given node or not.
     private List<PathNode> closedList;
 
@@ -94,6 +94,39 @@ public class PathFinding
         return null;
     }
     
+    public PathNode GetNode(int x, int z)
+    {
+        return grid.GetGridObject(x, z);
+    }
+
+    public GridXZ<PathNode> GetGrid()
+    {
+        return grid;
+    }
+
+    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
+    {
+        grid.GetXZ(startWorldPos, out int startX, out int startZ);
+        grid.GetXZ(endWorldPos, out int endX, out int endZ);
+
+        List<PathNode> path = FindPath(startX, startZ, endX, endZ);
+
+        if(path == null)
+        {
+            return null;
+        }
+        else
+        {
+            List<Vector3> vector3Path = new List<Vector3>();
+            foreach(var pathNode in path)
+            {
+                vector3Path.Add(new Vector3(pathNode.GetX(), 0, pathNode.GetZ()) * grid.GetCellsize() + new Vector3(1, 0, 1) * grid.GetCellsize() * 0.5f);
+            }
+            
+            return vector3Path;
+        }
+    }
+
     private List<PathNode> GetNeighboursList(PathNode currentNode)
     {
         List<PathNode> neighboursList = new List<PathNode>();
@@ -103,17 +136,18 @@ public class PathFinding
             // Left
             neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ()));
 
-            //Left Down
-            if(currentNode.GetZ() - 1 >= 0)
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() - 1));
-            }
+            // For diagonal movement, disabled for now.
+            // //Left Down
+            // if(currentNode.GetZ() - 1 >= 0)
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() - 1));
+            // }
 
-            // Left Up
-            if(currentNode.GetZ() + 1 < grid.GetDepth())
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() +1));
-            }
+            // // Left Up
+            // if(currentNode.GetZ() + 1 < grid.GetDepth())
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ() +1));
+            // }
         }
 
         if(currentNode.GetX() + 1 < grid.GetWidth())
@@ -121,17 +155,18 @@ public class PathFinding
             // Right
             neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ()));
 
-            // Right Down
-            if(currentNode.GetZ() -1 >= 0)
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() -1));
-            }
+            // For diagonal movement, disabled for now.
+            // // Right Down
+            // if(currentNode.GetZ() -1 >= 0)
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() -1));
+            // }
 
-            // Right Up
-            if(currentNode.GetZ() + 1 < grid.GetDepth())
-            {
-                neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() + 1));
-            }
+            // // Right Up
+            // if(currentNode.GetZ() + 1 < grid.GetDepth())
+            // {
+            //     neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ() + 1));
+            // }
         }
 
         // Down
@@ -147,11 +182,6 @@ public class PathFinding
         }
 
         return neighboursList;
-    }
-
-    public PathNode GetNode(int x, int z)
-    {
-        return grid.GetGridObject(x, z);
     }
 
     private List<PathNode> CalculatePath(PathNode endNode)
@@ -177,7 +207,10 @@ public class PathFinding
         int xDistance = Mathf.Abs(a.GetX() - b.GetX());
         int zDistance = Mathf.Abs(a.GetZ() - b.GetZ());
         int remaining = Mathf.Abs(xDistance - zDistance);
-        return MoveDiagonalCost * Mathf.Min(xDistance, zDistance) + MoveStraightCost * remaining;
+
+        //Reserved for diagonal movement
+        //return MoveDiagonalCost * Mathf.Min(xDistance, zDistance) + MoveStraightCost * remaining;
+        return xDistance + zDistance + MoveStraightCost * remaining;
     }
 
     private PathNode GetLowestFCostNode(List<PathNode> listOfPathNodes)
@@ -194,8 +227,4 @@ public class PathFinding
         return lowestFCostNode;
     }
 
-    public GridXZ<PathNode> GetGrid()
-    {
-        return grid;
-    }
 }
