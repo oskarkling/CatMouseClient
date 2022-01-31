@@ -54,7 +54,7 @@ public class PlayerControllerPc : MonoBehaviour
             MovePathFinding();
         }
 
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.T))
         {
             if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
             {
@@ -64,7 +64,7 @@ public class PlayerControllerPc : MonoBehaviour
                 // node.isWalkable = false;
                 // node.SetIsWalkable(false);
                 //pathFinding.GetNode(x,z).SetIsWalkable(false);
-
+                
 
                 int cellsize = (int)pathFinder.GetGrid().GetCellsize();
 
@@ -93,6 +93,17 @@ public class PlayerControllerPc : MonoBehaviour
     {
         return transform.position;
     }
+
+    public void SetNotWalkable(int x, int z)
+    {
+        pathFinder.GetNode(x, z).SetIsWalkable(!pathFinder.GetNode(x,z).isWalkable);
+    }
+
+    public void SetWalkable(int x, int z)
+    {
+        pathFinder.GetNode(x, z).SetIsWalkable(pathFinder.GetNode(x,z).isWalkable);
+    }
+
     private void StopMoving()
     {
         pathVector3List = null;
@@ -125,7 +136,7 @@ public class PlayerControllerPc : MonoBehaviour
 
                 transform.position = transform.position + moveDir * moveSpeed * Time.deltaTime;
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);                
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), rotSpeed * Time.fixedDeltaTime);                
                 // rotate character here
             }
             else
@@ -146,54 +157,31 @@ public class PlayerControllerPc : MonoBehaviour
         }
     }
 
-    private void MovePlayerObject()
-    {
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
+    // private void MovePlayerObject()
+    // {
+    //     transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
         
-        moving = false;
-    }
+    //     moving = false;
+    // }
 
-    private void MoveRigidbody()
-    {
-        rigidbody.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
+    // private void MoveRigidbody()
+    // {
+    //     rigidbody.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
 
-        // transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
+    //     // transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
 
 
-        rigidbody.velocity = (targetPos - transform.position).normalized * moveSpeed; 
+    //     rigidbody.velocity = (targetPos - transform.position).normalized * moveSpeed; 
 
-        if(transform.position.x < posPlusRange.x && transform.position.z < posPlusRange.z && transform.position.x > posMinusRange.x && transform.position.z > posMinusRange.z)
-        {
-            moving = false;
-            // print("Not moving");
-        }
-    }
+    //     if(transform.position.x < posPlusRange.x && transform.position.z < posPlusRange.z && transform.position.x > posMinusRange.x && transform.position.z > posMinusRange.z)
+    //     {
+    //         moving = false;
+    //         // print("Not moving");
+    //     }
+    // }
 
     private void SetTargetPositon()
     {
-
-        // Old code
-        // RaycastHit hitInfo;
-        // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        // if(Physics.Raycast(ray, out hitInfo, 1000))
-        // {
-        //     targetPos = hitInfo.point;
-            
-        //     lookDirection = new Vector3(targetPos.x - transform.position.x, transform.position.y, targetPos.z - transform.position.z);
-        //     rotation = Quaternion.LookRotation(lookDirection);
-
-        //     posPlusRange = targetPos + new Vector3(0.5f,0.5f,0.5f);
-        //     posMinusRange = targetPos - new Vector3(0.5f,0.5f,0.5f);
-            
-        //     // print(posPlusRange.ToString() + " plus range");
-        //     // print(posMinusRange.ToString() + " minus range");
-            
-        //     moving = true;
-        //     // print("moving");
-        // }
-
-        // New code
         if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
         {
             targetPos = mousePos;
@@ -212,18 +200,18 @@ public class PlayerControllerPc : MonoBehaviour
         }
     }
 
-    private void Move()
-    {
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
+    // private void Move()
+    // {
+    //     transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotSpeed * Time.fixedDeltaTime);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.fixedDeltaTime);
+    //     transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.fixedDeltaTime);
 
-        if(transform.position.x < posPlusRange.x && 
-            transform.position.z < posPlusRange.z && 
-            transform.position.x > posMinusRange.x && transform.position.z > posMinusRange.z)
-        {
-            moving = false;
-            // print("Not moving");            
-        }
-    }
+    //     if(transform.position.x < posPlusRange.x && 
+    //         transform.position.z < posPlusRange.z && 
+    //         transform.position.x > posMinusRange.x && transform.position.z > posMinusRange.z)
+    //     {
+    //         moving = false;
+    //         // print("Not moving");            
+    //     }
+    // }
 }

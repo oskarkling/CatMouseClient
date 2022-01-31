@@ -136,6 +136,7 @@ public class PathFinding
             // Left
             neighboursList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetZ()));
 
+            // For diagonal movement, disabled for now.
             // //Left Down
             // if(currentNode.GetZ() - 1 >= 0)
             // {
@@ -154,6 +155,7 @@ public class PathFinding
             // Right
             neighboursList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetZ()));
 
+            // For diagonal movement, disabled for now.
             // // Right Down
             // if(currentNode.GetZ() -1 >= 0)
             // {
@@ -205,7 +207,10 @@ public class PathFinding
         int xDistance = Mathf.Abs(a.GetX() - b.GetX());
         int zDistance = Mathf.Abs(a.GetZ() - b.GetZ());
         int remaining = Mathf.Abs(xDistance - zDistance);
-        return MoveDiagonalCost * Mathf.Min(xDistance, zDistance) + MoveStraightCost * remaining;
+
+        //Reserved for diagonal movement
+        //return MoveDiagonalCost * Mathf.Min(xDistance, zDistance) + MoveStraightCost * remaining;
+        return xDistance + zDistance + MoveStraightCost * remaining;
     }
 
     private PathNode GetLowestFCostNode(List<PathNode> listOfPathNodes)

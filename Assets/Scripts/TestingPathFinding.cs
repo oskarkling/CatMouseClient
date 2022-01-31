@@ -5,7 +5,10 @@ using UnityEngine;
 public class TestingPathFinding : MonoBehaviour
 {
     public GameObject wallPrefab;
+
+    public GameObject player;
     private PathFinding pathFinding;
+
     private void Start()
     {
         pathFinding = new PathFinding(10, 10);
@@ -36,27 +39,30 @@ public class TestingPathFinding : MonoBehaviour
         }
 
                 
-        // if(Input.GetKeyDown(KeyCode.W))
-        // {
-        //     if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
-        //     {
-        //         pathFinding.GetGrid().GetXZ(mousePos, out int x, out int z);
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+            {
+                pathFinding.GetGrid().GetXZ(mousePos, out int x, out int z);
 
-        //         // PathNode node = pathFinding.GetNode(x, z);
-        //         // node.isWalkable = false;
-        //         // node.SetIsWalkable(false);
-        //         //pathFinding.GetNode(x,z).SetIsWalkable(false);
+                // PathNode node = pathFinding.GetNode(x, z);
+                // node.isWalkable = false;
+                // node.SetIsWalkable(false);
+                //pathFinding.GetNode(x,z).SetIsWalkable(false);
 
 
-        //         int cellsize = (int)pathFinding.GetGrid().GetCellsize();
+                int cellsize = (int)pathFinding.GetGrid().GetCellsize();
 
-        //         Vector3 middle = pathFinding.GetGrid().GetWorldPosition(x,z) + new Vector3(cellsize / 2, 0, cellsize / 2);
+                Vector3 middle = pathFinding.GetGrid().GetWorldPosition(x,z) + new Vector3(cellsize / 2, 0, cellsize / 2);
 
-        //         pathFinding.GetNode(x, z).SetIsWalkable(!pathFinding.GetNode(x,z).isWalkable);
+                PlayerControllerPc pc = GameObject.Find("Player").GetComponent<PlayerControllerPc>();
 
-        //         Instantiate(wallPrefab, middle, Quaternion.identity);
-        //     }
-        // }
+
+                pc.SetNotWalkable(x, z);
+
+                Instantiate(wallPrefab, middle, Quaternion.identity);
+            }
+        }
 
     }
 }
