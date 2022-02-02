@@ -8,6 +8,8 @@ public class MapManager : MonoBehaviour
     private GridXZ<GridInfo> grid;
     private Player player;
 
+    public Camera camera;
+
     void Start() 
     { 
         player = FindObjectOfType<Player>();
@@ -21,7 +23,7 @@ public class MapManager : MonoBehaviour
         if(Input.GetMouseButton(0))
         {      
                   
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos, camera))
             {
                 GridInfo gridObj = grid.GetGridObject(mousePos);
 
@@ -34,7 +36,7 @@ public class MapManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos, camera))
             {
                 //print(grid.GetGridObject(mousePos));
             }

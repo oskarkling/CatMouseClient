@@ -21,18 +21,22 @@ public class PlayerControllerPc : MonoBehaviour
     private int currentPathIndex;
     private List<Vector3> pathVector3List;
     private PathFinding pathFinder;
-
     public GameObject wallPrefab;
+    public Camera camera;
 
     //testing rigidbody
     new private Rigidbody rigidbody;
 
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
-        rigidbody = GetComponent<Rigidbody>();
-        moveSpeed = player.moveSpeed;
-        rotSpeed = player.rotationSpeed;
+        //player = FindObjectOfType<Player>();
+        //rigidbody = GetComponent<Rigidbody>();
+        // moveSpeed = player.moveSpeed;
+        // rotSpeed = player.rotationSpeed;
+
+        moveSpeed = 5;
+        rotSpeed = 5;
+        
         moving = false;
 
         pathFinder = new PathFinding(10, 10);
@@ -42,7 +46,8 @@ public class PlayerControllerPc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject menuCamera = GameObject.Find("MenuCamera");
+        menuCamera.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,7 +61,7 @@ public class PlayerControllerPc : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
             {
                 pathFinder.GetGrid().GetXZ(mousePos, out int x, out int z);
 
@@ -182,7 +187,7 @@ public class PlayerControllerPc : MonoBehaviour
 
     private void SetTargetPositon()
     {
-        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
         {
             targetPos = mousePos;
             
