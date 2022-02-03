@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float  moveSpeed = 5;
-    public float rotationSpeed = 5;
-
     public static Dictionary<ushort, Player> list = new Dictionary<ushort, Player>();
 
     public ushort Id { get; private set; }

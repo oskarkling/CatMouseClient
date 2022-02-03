@@ -5,20 +5,31 @@ using UnityEngine;
 public class DampCamera : MonoBehaviour
 {
 
-    public Transform target;
+    private Transform target;
     public float lerpPercent;
 
     Vector3 targetOffset;
 
-    void Start()
+    private void Awake()
+    {
+        var player = FindObjectOfType<PlayerControllerPc>();
+        target = player.transform;
+    }
+
+    private void Start()
     {
         targetOffset = transform.position - target.position;
     }
-    void Update()
+
+    private void Update()
     {   
         if(target != null)
         {
             transform.position = Vector3.Lerp(transform.position, target.position + targetOffset, lerpPercent);
         }
+    }
+
+    private void LateUpdate()
+    {
     }
 }

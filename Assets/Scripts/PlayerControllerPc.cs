@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerControllerPc : MonoBehaviour
 {
 
+    //TODO Fix camera rotation. Try to get a player camera that activates and follows the player.
 
     private Player player;
     private Vector3 targetPos;
@@ -22,7 +23,6 @@ public class PlayerControllerPc : MonoBehaviour
     private List<Vector3> pathVector3List;
     private PathFinding pathFinder;
     public GameObject wallPrefab;
-    public Camera camera;
 
     //testing rigidbody
     new private Rigidbody rigidbody;
@@ -46,8 +46,11 @@ public class PlayerControllerPc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject menuCamera = GameObject.Find("MenuCamera");
-        menuCamera.SetActive(false);
+        // GameObject menuCamera = GameObject.Find("MenuCamera");
+        // menuCamera.SetActive(false);
+        // GameObject playerCamera = GameObject.Find("PlayerCamera");
+        // menuCamera.SetActive(true);
+
     }
 
     // Update is called once per frame
@@ -61,7 +64,7 @@ public class PlayerControllerPc : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
             {
                 pathFinder.GetGrid().GetXZ(mousePos, out int x, out int z);
 
@@ -187,7 +190,7 @@ public class PlayerControllerPc : MonoBehaviour
 
     private void SetTargetPositon()
     {
-        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
+        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
         {
             targetPos = mousePos;
             

@@ -7,7 +7,6 @@ public class TestingPathFinding : MonoBehaviour
     public GameObject wallPrefab;
 
     public GameObject player;
-    public Camera camera;
     private PathFinding pathFinding;
 
     private void Start()
@@ -24,7 +23,7 @@ public class TestingPathFinding : MonoBehaviour
     { 
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
             {
                 pathFinding.GetGrid().GetXZ(mousePos, out int x, out int z);
 
@@ -47,7 +46,7 @@ public class TestingPathFinding : MonoBehaviour
                 
         if(Input.GetKeyDown(KeyCode.W))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
             {
                 pathFinding.GetGrid().GetXZ(mousePos, out int x, out int z);
 
