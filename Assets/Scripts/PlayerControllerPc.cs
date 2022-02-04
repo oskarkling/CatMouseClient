@@ -23,6 +23,7 @@ public class PlayerControllerPc : MonoBehaviour
     private List<Vector3> pathVector3List;
     private PathFinding pathFinder;
     public GameObject wallPrefab;
+    private Camera camera;
 
     //testing rigidbody
     new private Rigidbody rigidbody;
@@ -51,6 +52,7 @@ public class PlayerControllerPc : MonoBehaviour
         // GameObject playerCamera = GameObject.Find("PlayerCamera");
         // menuCamera.SetActive(true);
 
+        camera = GameObject.Find("MainCamera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -64,7 +66,7 @@ public class PlayerControllerPc : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
             {
                 pathFinder.GetGrid().GetXZ(mousePos, out int x, out int z);
 
@@ -190,7 +192,7 @@ public class PlayerControllerPc : MonoBehaviour
 
     private void SetTargetPositon()
     {
-        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+        if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
         {
             targetPos = mousePos;
             
