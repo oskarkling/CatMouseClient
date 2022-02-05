@@ -23,7 +23,7 @@ public class PlayerControllerPc : MonoBehaviour
     private List<Vector3> pathVector3List;
     private PathFinding pathFinder;
     public GameObject wallPrefab;
-    private Camera camera;
+    new private Camera camera;
 
     //testing rigidbody
     new private Rigidbody rigidbody;

@@ -7,7 +7,7 @@ public class MapManager : MonoBehaviour
 {
     private GridXZ<GridInfo> grid;
     private Player player;
-    public Camera camera;
+    new public Camera camera;
 
     void Start() 
     { 

@@ -9,7 +9,7 @@ public class TestingPathFinding : MonoBehaviour
     public GameObject player;
     private PathFinding pathFinding;
 
-    private Camera camera;
+    new private Camera camera;
 
     private void Start()
     {
