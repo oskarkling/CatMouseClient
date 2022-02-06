@@ -9,16 +9,22 @@ public class TestingPathFinding : MonoBehaviour
     public GameObject player;
     private PathFinding pathFinding;
 
+    new private Camera camera;
+
     private void Start()
     {
         pathFinding = new PathFinding(10, 10);
+
+        camera = GetComponent<Camera>(); 
+
+
     }
 
     private void Update() 
     { 
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
             {
                 pathFinding.GetGrid().GetXZ(mousePos, out int x, out int z);
 
@@ -41,7 +47,7 @@ public class TestingPathFinding : MonoBehaviour
                 
         if(Input.GetKeyDown(KeyCode.W))
         {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos))
+            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
             {
                 pathFinding.GetGrid().GetXZ(mousePos, out int x, out int z);
 
