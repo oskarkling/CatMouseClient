@@ -40,7 +40,7 @@ public class PlayerControllerPc : MonoBehaviour
         
         moving = false;
 
-        pathFinder = new PathFinding(10, 10);
+        pathFinder = new PathFinding(10, 10, 10f);
 
     }
 

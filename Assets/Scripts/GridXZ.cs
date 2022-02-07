@@ -20,7 +20,7 @@ public class GridXZ<TGridType>
     private Vector3 originPosition;
     private TextMesh[,] debugTextArr;
 
-    // Contructor recieves a func which instantiate the object on each cell in the grid.
+    // Contructor recieves a func which instantiates the object on each cell in the grid. Its becouse we want to instantiate new objects of that type.
     public GridXZ(int _width, int _depth, float _cellSize, Vector3 _originPositon, Func<GridXZ<TGridType>, int, int, TGridType> createGridObject)
     {
         width = _width;

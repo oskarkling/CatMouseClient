@@ -13,7 +13,7 @@ public class TestingPathFinding : MonoBehaviour
 
     private void Start()
     {
-        pathFinding = new PathFinding(10, 10);
+        pathFinding = new PathFinding(10, 10, 10f);
 
         camera = GetComponent<Camera>(); 
 
@@ -45,7 +45,7 @@ public class TestingPathFinding : MonoBehaviour
         }
 
                 
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.E))
         {
             if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
             {

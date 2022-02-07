@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// under construction
 public class MapManager : MonoBehaviour
 {
     private GridXZ<GridInfo> grid;

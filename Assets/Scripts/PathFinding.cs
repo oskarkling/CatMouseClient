@@ -18,9 +18,14 @@ public class PathFinding
     // becouse we are checking if it contains the given node or not.
     private List<PathNode> closedList;
 
-    public PathFinding(int width, int depth)
+    public PathFinding(int width, int depth, float cellsize)
     {
-        grid = new GridXZ<PathNode>(width, depth, 10f, Vector3.zero, (GridXZ<PathNode> g, int x, int z) => new PathNode(g, x, z));
+        grid = new GridXZ<PathNode>(width, depth, cellsize, Vector3.zero, (GridXZ<PathNode> g, int x, int z) => new PathNode(g, x, z));
+    }
+
+    public PathFinding(int width, int depth, float cellsize, Vector3 originPosition)
+    {
+        grid = new GridXZ<PathNode>(width, depth, cellsize, originPosition, (GridXZ<PathNode> g, int x, int z) => new PathNode(g, x, z));
     }
 
     public List<PathNode> FindPath(int startX, int startZ, int endX, int endZ)
