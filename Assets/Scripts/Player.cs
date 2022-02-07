@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
             if(transform.position == targetPosition)
             {
                 IsMoving = false;
-                Debug.Log("Not moving anymore");
             }
         }
     }
@@ -39,7 +38,7 @@ public class Player : MonoBehaviour
     private void Move(Vector3 newPosition, Vector3 forward)
     {
         //transform.position = newPosition;
-        Debug.Log("starting to move");
+
         IsMoving = true;
         targetPosition = newPosition;
         
