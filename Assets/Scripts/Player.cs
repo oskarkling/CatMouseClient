@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     public ushort Id { get; private set; }
     public bool IsLocal { get; private set; }
+    private bool IsMoving;
+    private Vector3 targetPosition;
 
     [SerializeField] private Transform camTransform;
 
@@ -20,12 +22,27 @@ public class Player : MonoBehaviour
         list.Remove(Id);
     }
 
+    public void Update()
+    {
+        if(IsMoving)
+        {
+            // To smooth out movement
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 0.1f);
+            if(transform.position == targetPosition)
+            {
+                IsMoving = false;
+                Debug.Log("Not moving anymore");
+            }
+        }
+    }
+
     private void Move(Vector3 newPosition, Vector3 forward)
     {
         //transform.position = newPosition;
-
-        // To smooth out movement
-        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * 15);
+        Debug.Log("starting to move");
+        IsMoving = true;
+        targetPosition = newPosition;
+        
 
         if(!IsLocal)
         {
