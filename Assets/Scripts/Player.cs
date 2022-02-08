@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private bool IsMoving;
     private Vector3 targetPosition;
 
+    [SerializeField] private PlayerAnimationManager animationManager;
     [SerializeField] private Transform camTransform;
 
     private string username;
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
         if(!IsLocal)
         {
             camTransform.forward = forward;
+            animationManager.AnimateBasedOnSpeed();
         }
     }
 
