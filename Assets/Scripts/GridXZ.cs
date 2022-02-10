@@ -48,10 +48,10 @@ public class GridXZ<TGridType>
                 for(int z = 0; z < gridArray.GetLength(1); z++)
                 {
 
-                    Vector3 cellCenterPos = GetWorldPosition(x, z);
-                    cellCenterPos.x += cellSize * 0.5f;
-                    cellCenterPos.z += cellSize * 0.5f;
-                    debugTextArr[x, z] = Utility.TextUtils.CreateWorldTextXZ(gridArray[x, z]?.ToString(), null, cellCenterPos, 30, Color.white, TextAnchor.MiddleCenter);
+                    // Vector3 cellCenterPos = GetWorldPosition(x, z);
+                    // cellCenterPos.x += cellSize * 0.5f;
+                    // cellCenterPos.z += cellSize * 0.5f;
+                    // debugTextArr[x, z] = Utility.TextUtils.CreateWorldTextXZ(gridArray[x, z]?.ToString(), null, cellCenterPos, 30, Color.white, TextAnchor.MiddleCenter);
 
                     Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.white, 100f);
                     Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.white, 100f);

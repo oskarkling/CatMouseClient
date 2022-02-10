@@ -40,7 +40,7 @@ public class PlayerControllerPc : MonoBehaviour
         
         moving = false;
 
-        pathFinder = new PathFinding(10, 10, 10f);
+        pathFinder = new PathFinding(10, 10, 4f, new Vector3(0f,0f,0f));
 
     }
 
@@ -52,7 +52,7 @@ public class PlayerControllerPc : MonoBehaviour
         // GameObject playerCamera = GameObject.Find("PlayerCamera");
         // menuCamera.SetActive(true);
 
-        camera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        camera = GameObject.Find("MainCameraCM").GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -125,6 +125,16 @@ public class PlayerControllerPc : MonoBehaviour
 
         if(pathVector3List != null && pathVector3List.Count > 1)
         {
+            // DRAWING LINE FOR DEBUG
+            for(int i = 0; i < pathVector3List.Count - 1; i++)
+            {
+                int cellsize = (int)pathFinder.GetGrid().GetCellsize();
+
+                Debug.DrawLine(pathVector3List[i],
+                pathVector3List[i+1], Color.red, 7f);
+            }
+            // END OF DEBUG
+
             pathVector3List.RemoveAt(0);
         }
         
@@ -134,6 +144,8 @@ public class PlayerControllerPc : MonoBehaviour
     {
         if(pathVector3List != null)
         {
+
+
             Vector3 pathTargetPosition = pathVector3List[currentPathIndex];
             
             if(Vector3.Distance(transform.position, pathTargetPosition) > 1f)
@@ -194,6 +206,24 @@ public class PlayerControllerPc : MonoBehaviour
     {
         if(Utility.MouseUtility.GetMousePositonOn3DSpace(out Vector3 mousePos, camera))
         {
+            // DEBUG___________
+            // pathFinder.GetGrid().GetXZ(mousePos, out int x, out int z);
+
+            // List<PathNode> path = pathFinder.FindPath(0, 0, x, z);
+            
+            // if(path != null)
+            // {
+            //     for(int i = 0; i < path.Count - 1; i++)
+            //     {
+            //         print(path[i].GetX().ToString() + ", " + path[i].GetZ().ToString());
+
+            //         int cellsize = (int)pathFinder.GetGrid().GetCellsize();
+
+            //         Debug.DrawLine(pathFinder.GetGrid().GetWorldPosition(path[i].GetX(), path[i].GetZ())  + new Vector3(cellsize / 2, 0, cellsize / 2), pathFinder.GetGrid().GetWorldPosition(path[i+1].GetX(), path[i+1].GetZ())  + new Vector3(cellsize / 2, 0, cellsize / 2), Color.red, 100f);
+            //     }
+            // }
+            //END OF DEBUG_________
+
             targetPos = mousePos;
             
             lookDirection = new Vector3(targetPos.x - transform.position.x, transform.position.y, targetPos.z - transform.position.z);
