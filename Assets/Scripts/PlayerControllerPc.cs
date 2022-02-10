@@ -146,8 +146,8 @@ public class PlayerControllerPc : MonoBehaviour
 
                 transform.position = transform.position + moveDir * moveSpeed * Time.deltaTime;
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), rotSpeed * Time.fixedDeltaTime);                
                 // rotate character here
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), rotSpeed * Time.fixedDeltaTime);                
             }
             else
             {
