@@ -7,51 +7,24 @@ using UnityEngine;
 // under construction
 public class MapManager : MonoBehaviour
 {
-    private GridXZ<GridInfo> grid;
-    private Player player;
-    new public Camera camera;
+    private static MapManager _singleton;
 
-    void Start() 
-    { 
-        player = FindObjectOfType<Player>();
-        grid = new GridXZ<GridInfo>(20, 10, 8f, new Vector3(0,0,0), (GridXZ<GridInfo> _grid, int _x, int _z) => new GridInfo(_grid, _x, _z));
-    }
-
-    void Update()
+    public static MapManager Singleton
     {
-        Vector3 mousePos;
-
-        if(Input.GetMouseButton(0))
-        {      
-                  
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos, camera))
+        get => _singleton;
+        private set
+        {
+            if (_singleton == null)
             {
-                GridInfo gridObj = grid.GetGridObject(mousePos);
-
-                if(gridObj != null)
-                {
-                    gridObj.AddValue(5);
-                }
+                _singleton = value;
+            }
+            else if (_singleton != value)
+            {
+                Debug.Log($"{nameof(MapManager)} instance already exists, destroying duplicate!");
+                Destroy(value);
             }
         }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            if(Utility.MouseUtility.GetMousePositonOn3DSpace(out mousePos, camera))
-            {
-                //print(grid.GetGridObject(mousePos));
-            }
-        }
-
-        CheckIfPlayerHasWalkedOverThisGridObj();
     }
 
-    private void CheckIfPlayerHasWalkedOverThisGridObj()
-    {
-        GridInfo gridObj = grid.GetGridObject(player.transform.position);
-        if(!gridObj.GetHaveWalkedOver())
-        {
-            gridObj.SetHaveWalkedOver(true);
-        }
-    }
+    
 }
